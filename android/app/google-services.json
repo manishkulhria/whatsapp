@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "610724564296",
+    "project_id": "ecommercedata-4cafe",
+    "storage_bucket": "ecommercedata-4cafe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610724564296:android:09c70698ab2620837c777d",
+        "android_client_info": {
+          "package_name": "com.example.whatsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdAz2Gc7oR0qqDjmzs_7lBzeWPyMl9yWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
