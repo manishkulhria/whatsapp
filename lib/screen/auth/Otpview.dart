@@ -31,17 +31,19 @@ class _OtpViewState extends State<OtpView> {
   }
 
   // ignore: unused_element
-  // _signup() async {
-  //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
-  //       verificationId: widget.verificationId, smsCode: otp);
-  //   try {
-  //     await FirebaseAuth.instance
-  //         .signInWithCredential(credential)
-  //         .then((value) => Get.offAll(RouteName.HomePage));
-  //   } catch (e) {
-  //     Get.snackbar("Error", e.toString());
-  //   }
-  // }
+  _signup() async {
+    try {
+      final credential = PhoneAuthProvider.credential(
+          verificationId: widget.verificationId,
+          smsCode: _otpcontroller.text.toString());
+      await FirebaseAuth.instance.signInWithCredential(credential).then((v) {
+        Get.toNamed(RouteName.Completeprofile);
+        Get.snackbar("Success", "Otp successfully");
+      });
+    } catch (e) {
+      Get.snackbar("Wrong", "Please correct otp!");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,32 +58,8 @@ class _OtpViewState extends State<OtpView> {
                 textcol: Appcolors.white,
                 title: "Verify",
                 minimumSize: true,
-                onPressed: () async {
-                  try {
-                    final credential = PhoneAuthProvider.credential(
-                        verificationId: widget.verificationId,
-                        smsCode: _otpcontroller.text.toString());
-                    await FirebaseAuth.instance
-                        .signInWithCredential(credential)
-                        .then((v) {
-                      Get.toNamed(RouteName.HomePage);
-                    });
-                  } catch (e) {
-                    print(e.toString());
-                  }
-                  // showDialog(
-                  //     context: context,
-                  //     builder: (context) => Dialog(
-                  //           child: Container(
-                  //             height: 80,
-                  //             width: 30,
-                  //             child: SpinKitRing(
-                  //               color: Appcolors.Lightgreen,
-                  //             ),
-                  //           ),
-                  //         ));
-                  // Future.delayed(Duration(seconds: 1),
-                  //     () => Navigator.pushNamed(context, RouteName.HomePage));
+                onPressed: () {
+                  _signup();
                 }),
           ],
         ),

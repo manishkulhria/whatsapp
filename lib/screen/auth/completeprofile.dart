@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatsapp/Components/CommonBtn.dart';
+import 'package:whatsapp/backend/Apis/Apis.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/constants/icon_image.dart';
+import 'package:whatsapp/resources/utils/routes/routename.dart';
 
 class Completeprofile extends StatefulWidget {
   const Completeprofile({super.key});
@@ -17,10 +20,12 @@ class Completeprofile extends StatefulWidget {
 }
 
 class _CompleteprofileState extends State<Completeprofile> {
+  TextEditingController _name = TextEditingController();
   File? imageFile;
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -58,11 +63,23 @@ class _CompleteprofileState extends State<Completeprofile> {
                 icon: Icon(Icons.camera_alt, color: Appcolors.white, size: 20))
           ])),
           TextField(
+              controller: _name,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Appcolors.darkgreen)),
                   suffix: Icon(Icons.emoji_emotions_outlined))),
-          CommonBtn(minimumSize: false, title: "Next", onPressed: () async {})
+          CommonBtn(
+              minimumSize: false,
+              title: "Next",
+              onPressed: () async {
+                try {
+                  Apis.createUser(_name.text.toString(),imageFile).then(
+                    (value) => Get.toNamed(RouteName.HomePage),
+                  );
+                } catch (e) {
+                  print(e.toString());
+                }
+              })  
         ])));
   }
 

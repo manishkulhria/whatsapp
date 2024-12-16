@@ -1,17 +1,32 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:whatsapp/Components/Messagecard.dart';
+import 'package:whatsapp/backend/Apis/Apis.dart';
+import 'package:whatsapp/backend/Firebaseresponse/Firebaseresponse.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
-import 'package:whatsapp/constants/icon_image.dart';
+import 'package:whatsapp/model/authmodel.dart';
+import 'package:whatsapp/model/messagemodel.dart';
 
+// ignore: must_be_immutable
 class MessageView extends StatefulWidget {
-  const MessageView({super.key});
+  Usermodel model;
+  MessageView({super.key, required this.model});
 
-  @override
   State<MessageView> createState() => _MessageViewState();
 }
 
 class _MessageViewState extends State<MessageView> {
+  List<Message> _list = [];
+  File? imagefile;
+  final FocusNode _focusNode = FocusNode();
+  final _msgcontroller = TextEditingController();
+
   List<dynamic> showDialogdata = ["8 hours", "1 week", "Always"];
   bool value = false;
   bool isChecked = false;
@@ -20,22 +35,41 @@ class _MessageViewState extends State<MessageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(Icons.arrow_back_sharp)),
         titleSpacing: 1,
         foregroundColor: Appcolors.white,
         backgroundColor: Appcolors.darkgreen,
-        title: ListTile(
-          leading: Image.asset(AppImage.aron),
-          title: Text(
-            "Abelson",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTextTheme.fs14Normal().copyWith(color: Appcolors.white),
-          ),
-          subtitle: Text(
-            "online",
-            style: AppTextTheme.fs12Normal().copyWith(color: Appcolors.white),
-          ),
-        ),
+        title: Row(children: [
+          ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  height: 42,
+                  width: 42,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          color: Appcolors.Red,
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  imageUrl: widget.model.image.toString())),
+          Gap(10),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+                child: Text(widget.model.name.toString(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextTheme.fs16Bold()
+                        .copyWith(color: Appcolors.white))),
+            Gap(5),
+            Text("online",
+                style:
+                    AppTextTheme.fs12Normal().copyWith(color: Appcolors.white))
+          ])
+        ]),
         actions: [
           IconButton(
               onPressed: () {
@@ -195,8 +229,42 @@ class _MessageViewState extends State<MessageView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [],
+            Expanded(
+              child: StreamBuilder(
+                stream: Apis.getAllMessages(widget.model),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox();
+                  } else if (snapshot.connectionState ==
+                          ConnectionState.active ||
+                      snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data?.docs;
+                      if (data != null && data.isNotEmpty) {
+                        _list = data.map((e) {
+                          return Message.fromjson(
+                              FirebaseResponseModel.fromResponse(e));
+                        }).toList();
+
+                        return ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: _list.length,
+                          itemBuilder: (context, index) {
+                            return Messagecard(message: _list[index]);
+                          },
+                        );
+                      } else {
+                        return Center(child: Text("No messages yet."));
+                      }
+                    } else {
+                      return Center(child: Text("Failed to load messages."));
+                    }
+                  } else {
+                    return Center(child: Text("Something went wrong"));
+                  }
+                },
+              ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -215,9 +283,10 @@ class _MessageViewState extends State<MessageView> {
                                 Icons.emoji_emotions,
                                 color: Appcolors.grey,
                               )),
-                            
                           Expanded(
                             child: TextField(
+                                controller: _msgcontroller,
+                                focusNode: _focusNode,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide.none),
@@ -230,13 +299,31 @@ class _MessageViewState extends State<MessageView> {
                                 color: Appcolors.grey,
                               )),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                final ImagePicker picker = ImagePicker();
+                                final XFile? img = await picker.pickImage(
+                                    source: ImageSource.gallery,
+                                    imageQuality: 80);
+                                if (img != null) {
+                                  await Apis.sendchatimg(
+                                      widget.model, File(img.path));
+                                }
+                              },
                               icon: Icon(
-                                Icons.payment,
+                                Icons.image,
                                 color: Appcolors.grey,
                               )),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                final ImagePicker picker = ImagePicker();
+                                final XFile? img = await picker.pickImage(
+                                    source: ImageSource.camera,
+                                    imageQuality: 80);
+                                if (img != null) {
+                                  await Apis.sendchatimg(
+                                      widget.model, File(img.path));
+                                }
+                              },
                               icon: Icon(
                                 Icons.camera_alt,
                                 color: Appcolors.grey,
@@ -247,12 +334,14 @@ class _MessageViewState extends State<MessageView> {
                   IconButton(
                       style: TextButton.styleFrom(
                           backgroundColor: Appcolors.darkgreen),
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.mic,
-                        color: Appcolors.white,
-                        size: 35,
-                      ))
+                      onPressed: () {
+                        if (_msgcontroller.text.isNotEmpty) {
+                          Apis.sendMessage(widget.model,
+                              _msgcontroller.text.trim(), MessageType.Text);
+                          _msgcontroller.clear();
+                        }
+                      },
+                      icon: Icon(Icons.send, color: Appcolors.white, size: 35))
                 ],
               ),
             ),

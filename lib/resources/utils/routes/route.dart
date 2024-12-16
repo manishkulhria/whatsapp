@@ -4,7 +4,6 @@ import 'package:whatsapp/screen/Home/Homemenutype/Linkeddevice.dart';
 import 'package:whatsapp/screen/Home/Homemenutype/NewPayment.dart';
 import 'package:whatsapp/screen/Home/Homemenutype/PaymentView.dart';
 import 'package:whatsapp/screen/Home/Homemenutype/StarredView.dart';
-import 'package:whatsapp/screen/Home/MessageView.dart';
 import 'package:whatsapp/screen/Home/Searchview.dart';
 import 'package:whatsapp/screen/Home/SelectContact.dart';
 import 'package:whatsapp/screen/Setting/Accounts/AccountView.dart';
@@ -27,15 +26,17 @@ import 'package:whatsapp/screen/OnBording/Splashview.dart';
 import 'package:whatsapp/screen/OnBording/WelcomeView.dart';
 import 'package:whatsapp/screen/auth/Login_view.dart';
 import 'package:whatsapp/resources/utils/routes/routename.dart';
+import 'package:whatsapp/screen/auth/completeprofile.dart';
 
 class AppPages {
   static const intialroute = RouteName.splashview;
   static final routes = [
     GetPage(name: RouteName.Loginview, page: () => Loginview()),
     GetPage(name: RouteName.splashview, page: () => splashview()),
+    GetPage(name: RouteName.Completeprofile, page: () => Completeprofile()),
     GetPage(name: RouteName.HomePage, page: () => HomePage()),
     GetPage(name: RouteName.WelcomeView, page: () => WelcomeView()),
-    GetPage(name: RouteName.MessageView, page: () => MessageView()),
+    // GetPage(name: RouteName.MessageView, page: () => MessageView()),
     GetPage(name: RouteName.SearchView, page: () => SearchView()),
     GetPage(name: RouteName.Selectcontact, page: () => Selectcontact()),
     GetPage(name: RouteName.StarrehView, page: () => StarrehView()),

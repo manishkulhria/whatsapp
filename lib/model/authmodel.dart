@@ -1,28 +1,39 @@
-import 'package:whatsapp/resources/Firebaseresponse/Firebaseresponse.dart';
+import 'package:whatsapp/backend/Firebaseresponse/Firebaseresponse.dart';
 
 class Usermodel {
-  String? uid;
-  String? email;
-  String? username;
-  bool? status;
+  String? image;
+  String? about;
+  String? name;
+  String? id;
+  String? lastActive;
+  String? phoneno;
+  Usermodel({
+    this.image,
+    this.about,
+    this.name,
+    this.id,
+    this.lastActive,
+    this.phoneno,
+  });
 
-  Usermodel({this.uid, this.email, this.username, this.status});
+  Usermodel.fromJson(FirebaseResponseModel json) {
+    image = json.data['image'] ?? '';
+    about = json.data['about'] ?? '';
+    name = json.data['name'] ?? '';
 
-  Usermodel.fromJson(FirebaseResponseModel json)
-      : uid = json.docId,
-        email = json.data["email"] ?? "",
-        username = json.data["username"] ?? "",
-        status = json.data["status"] ?? false;
+    id = json.docId;
+    lastActive = json.data['last_active'] ?? '';
+    phoneno = json.data['phoneno'] ?? '';
+  }
 
-  Map<String, dynamic> toJson() =>
-      {"uid": uid, "email": email, "username": username, "status": status};
-
-  Usermodel copyWith(
-      {String? uid, String? email, String? username, bool? status}) {
-    return Usermodel(
-        uid: uid ?? this.uid,
-        email: email ?? this.email,
-        username: username ?? this.username,
-        status: status ?? this.status);
+  Map<String, dynamic> toMap() {
+    final data = <String, dynamic>{};
+    data['image'] = image;
+    data['about'] = about;
+    data['name'] = name;
+    data['id'] = id;
+    data['last_active'] = lastActive;
+    data['phoneno'] = phoneno;
+    return data;
   }
 }

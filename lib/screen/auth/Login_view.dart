@@ -1,14 +1,14 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:whatsapp/Components/CommonBtn.dart';
+import 'package:whatsapp/backend/repo/auth_repositry.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
+import 'package:whatsapp/model/authmodel.dart';
 import 'package:whatsapp/resources/validators/app_validator.dart';
-import 'package:whatsapp/screen/auth/Otpview.dart';
 
 class Loginview extends StatefulWidget {
   const Loginview({super.key});
@@ -93,7 +93,7 @@ class _LoginviewState extends State<Loginview> {
                               if (_globalKey.currentState!.validate()) {
                                 final phoneNumber = _phncontroller.text.trim();
 
-                                final fullPhoneNumber = "+1$phoneNumber";
+                                final fullPhoneNumber = "+91$phoneNumber";
 
                                 if (phoneNumber.isEmpty ||
                                     phoneNumber.length < 10) {
@@ -101,28 +101,11 @@ class _LoginviewState extends State<Loginview> {
                                       "Please enter a valid phone number.");
                                   return;
                                 }
-                                await FirebaseAuth.instance.verifyPhoneNumber(
-                                  phoneNumber: fullPhoneNumber,
-                                  verificationCompleted:
-                                      (phoneAuthCredential) {},
-                                  verificationFailed: (error) {
-                                    print("--------");
-                                    print(error.toString());
-                                    print("--------");
-                                    Get.snackbar(
-                                        "Phone number", error.toString());
-                                  },
-                                  codeSent:
-                                      (verificationid, forceResendingToken) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => OtpView(
-                                                verificationId:
-                                                    verificationid)));
-                                  },
-                                  codeAutoRetrievalTimeout: (e) {},
-                                );
+                                await AuthRepositry().signup(
+                                    user: Usermodel(
+                                        image: "",
+                                        phoneno: fullPhoneNumber,
+                                        name: ""));
                               }
                             }),
                         Gap(40)

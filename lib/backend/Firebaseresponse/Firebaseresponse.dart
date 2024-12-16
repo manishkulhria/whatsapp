@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseResponseModel {
-  Map<String, dynamic> data;
-  String docId;
+  final Map<String, dynamic> data;
+  final String docId;
 
-  FirebaseResponseModel(this.data, this.docId);
+  FirebaseResponseModel({required this.data, required this.docId});
 
-  FirebaseResponseModel.fromResponse(DocumentSnapshot snapshot)
-      : data = snapshot.data() as Map<String, dynamic>,
-        docId = snapshot.id;
+  factory FirebaseResponseModel.fromResponse(DocumentSnapshot snapshot) {
+    return FirebaseResponseModel(
+      data: snapshot.data()
+          as Map<String, dynamic>, // Convert Firestore snapshot data to Map
+      docId: snapshot.id,
+    );
+  }
 }

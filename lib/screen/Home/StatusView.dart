@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/constants/icon_image.dart';
 import 'package:whatsapp/controller/Dummydatacontroller.dart';
 import 'package:whatsapp/resources/utils/routes/routename.dart';
+import 'package:whatsapp/screen/Home/statusadd.dart/storyview.dart';
 
 class StatusView extends StatelessWidget {
   const StatusView({super.key});
@@ -46,6 +48,9 @@ class StatusView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
+              onTap: () {
+                Get.to(() => Storyview());
+              },
               leading: Stack(alignment: Alignment(1.2, 1.3), children: [
                 Image.asset(AppImage.abelson),
                 GestureDetector(

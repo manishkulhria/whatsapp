@@ -9,6 +9,7 @@ class RouteName {
 
 // ----------------HOME VIEW-----------------
   static const String HomePage = "/HomePage";
+  static const String Completeprofile = "/Completeprofile";
   static const String MessageView = "/MessageView";
   static const String SearchView = "/SearchView";
   static const String Selectcontact = "/Selectcontact";

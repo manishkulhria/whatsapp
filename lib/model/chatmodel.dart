@@ -1,10 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chatmodel {
   String? senderid;
   String? userid, text, type;
-  FieldValue?time;
+  FieldValue? time;
   bool? read;
 
   Chatmodel(
@@ -40,7 +39,6 @@ class Chatmodel {
         read: read ?? this.read,
         time: time ?? this.time);
   }
-
 
 // -----
   Chatmodel.fromjson(Map<String, dynamic> json)

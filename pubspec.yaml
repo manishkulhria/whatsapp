@@ -56,6 +56,12 @@ dependencies:
   timestamp_to_string: ^0.0.1
   cloud_firestore: ^5.5.0
   shared_preferences: ^2.3.3
+  cached_network_image: ^3.4.1
+  firebase_storage: ^12.3.6
+  story_view: ^0.16.5
+  chat_message: ^1.0.1
+  dash_chat_2: ^0.0.20
+
   
  
 dev_dependencies:
