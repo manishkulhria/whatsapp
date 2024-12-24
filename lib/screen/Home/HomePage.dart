@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:whatsapp/Components/dialog.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
-import 'package:whatsapp/screen/Home/Chatview.dart';
+import 'package:whatsapp/screen/Home/chat/Chatview.dart';
 import 'package:whatsapp/screen/Home/CallView.dart';
 import 'package:whatsapp/screen/Home/StatusView.dart';
 import 'package:whatsapp/resources/utils/routes/routename.dart';
@@ -18,11 +18,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int tabbarindex = 0;
   late TabController tabController =
-      TabController(length: 4, vsync: this, initialIndex: tabbarindex);
+      TabController(length: 3, vsync: this, initialIndex: tabbarindex);
+
+  @override
+  void initState() {
+    super.initState();
+    tabController.addListener(() {
+      // Update tab index when the tab changes
+      if (tabController.index != tabbarindex) {
+        setState(() {
+          tabbarindex = tabController.index;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     // ignore: deprecated_member_use
     return WillPopScope(
         onWillPop: () async {
@@ -32,7 +44,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             });
           } else {
             Get.dialog(EixtAppDailog(), barrierDismissible: false);
-            ;
           }
           return false;
         },
@@ -45,49 +56,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 actions: [
                   IconButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, RouteName.SearchView);
+                        Get.toNamed(RouteName.SearchView);
                       },
                       icon: Icon(Icons.search)),
-                  PopupMenuButton(
-                      enabled: true,
-                      itemBuilder: (context) => [
-                            PopupMenuItem(
-                                onTap: () {},
-                                child: Text("New group",
-                                    style: AppTextTheme.fs13Normal())),
-                            PopupMenuItem(
-                                onTap: () {},
-                                child: Text("New broadcast",
-                                    style: AppTextTheme.fs13Normal())),
-                            PopupMenuItem(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteName.LinkeddeviceView);
-                                },
-                                child: Text("Linked devices",
-                                    style: AppTextTheme.fs13Normal())),
-                            PopupMenuItem(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteName.StarrehView);
-                                },
-                                child: Text("Starred messages",
-                                    style: AppTextTheme.fs13Normal())),
-                            PopupMenuItem(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteName.PaymentView);
-                                },
-                                child: Text("Payments",
-                                    style: AppTextTheme.fs13Normal())),
-                            PopupMenuItem(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteName.SettingView);
-                                },
-                                child: Text("Settings",
-                                    style: AppTextTheme.fs13Normal()))
-                          ])
+                  _getPopupMenuButton()
                 ],
                 bottom: TabBar(
                     indicatorColor: Appcolors.white,
@@ -97,18 +69,83 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     // ignore: deprecated_member_use
                     overlayColor: MaterialStatePropertyAll(Appcolors.darkgreen),
                     tabs: [
-                      Tab(child: Icon(Icons.camera_alt)),
                       Tab(child: Text("CHATS")),
                       Tab(child: Text("STATUS•")),
                       Tab(child: Text("CALLS"))
                     ])),
             body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: TabBarView(controller: tabController, children: [
-                  Text("kjiuhy"),
-                  ChatView(),
-                  StatusView(),
-                  CallView()
-                ]))));
+                child: TabBarView(
+                    controller: tabController,
+                    children: [ChatView(), StatusView(), CallView()]))));
+  }
+
+  // Method to get the correct PopupMenuButton based on the selected tab
+  Widget _getPopupMenuButton() {
+    if (tabbarindex == 0) {
+      return PopupMenuButton(
+        enabled: true,
+        itemBuilder: (context) => [
+          PopupMenuItem(
+              onTap: () {},
+              child: Text("New group", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {},
+              child: Text("New broadcast", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {
+                Get.toNamed(RouteName.LinkeddeviceView);
+              },
+              child: Text("Linked devices", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {
+                Get.toNamed(RouteName.StarrehView);
+              },
+              child:
+                  Text("Starred messages", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {
+                Get.toNamed(RouteName.PaymentView);
+              },
+              child: Text("Payments", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {
+                Get.toNamed(RouteName.SettingView);
+              },
+              child: Text("Settings", style: AppTextTheme.fs13Normal()))
+        ],
+      );
+    } else if (tabbarindex == 1) {
+      return PopupMenuButton(
+        enabled: true,
+        itemBuilder: (context) => [
+          PopupMenuItem(
+              onTap: () {},
+              child: Text("Create channel", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {},
+              child: Text("Status privacy", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {
+                Get.toNamed(RouteName.SettingView);
+              },
+              child: Text("Settings", style: AppTextTheme.fs13Normal()))
+        ],
+      );
+    } else {
+      return PopupMenuButton(
+        enabled: true,
+        itemBuilder: (context) => [
+          PopupMenuItem(
+              onTap: () {},
+              child: Text("Clear call log", style: AppTextTheme.fs13Normal())),
+          PopupMenuItem(
+              onTap: () {
+                Get.toNamed(RouteName.SettingView);
+              },
+              child: Text("Settings", style: AppTextTheme.fs13Normal()))
+        ],
+      );
+    }
   }
 }

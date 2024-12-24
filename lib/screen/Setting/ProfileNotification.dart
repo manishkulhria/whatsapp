@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp/Components/RadioRowfun.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
@@ -105,7 +106,7 @@ class _ProfileNotificationState extends State<ProfileNotification> {
                                 children: [
                                   TextButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                         Get.back();
                                       },
                                       child: Text("LEARN MORE",
                                           style: AppTextTheme.fs13Normal()

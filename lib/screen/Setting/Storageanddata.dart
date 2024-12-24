@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:whatsapp/Components/Checkboxlisttile.dart';
 import 'package:whatsapp/Components/RadioRowfun.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
@@ -38,8 +40,7 @@ class _StorageanddataState extends State<Storageanddata> {
                     children: [
                       ListTile(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, RouteName.Managestorage);
+                            Get.toNamed( RouteName.Managestorage);
                           },
                           leading: Icon(Icons.folder, color: Appcolors.grey),
                           title: Text("Manage storage",
@@ -109,7 +110,7 @@ class _StorageanddataState extends State<Storageanddata> {
                                               children: [
                                                 TextButton(
                                                     onPressed: () {
-                                                      Navigator.pop(context);
+                                                       Get.back();
                                                     },
                                                     child: Text("CANCEL",
                                                         style: AppTextTheme
@@ -169,7 +170,7 @@ class _StorageanddataState extends State<Storageanddata> {
                                               children: [
                                                 TextButton(
                                                     onPressed: () {
-                                                      Navigator.pop(context);
+                                                      Get.back();
                                                     },
                                                     child: Text("CANCEL",
                                                         style: AppTextTheme
@@ -229,7 +230,7 @@ class _StorageanddataState extends State<Storageanddata> {
                                               children: [
                                                 TextButton(
                                                     onPressed: () {
-                                                      Navigator.pop(context);
+                                                      Get.back();
                                                     },
                                                     child: Text("CANCEL",
                                                         style: AppTextTheme
@@ -307,8 +308,7 @@ class _StorageanddataState extends State<Storageanddata> {
                                                   children: [
                                                     TextButton(
                                                         onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
+                                                           Get.back();
                                                         },
                                                         child: Text("CANCEL",
                                                             style: AppTextTheme

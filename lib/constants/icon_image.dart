@@ -4,6 +4,7 @@
 class AppImage {
   // -----------On bording img----------
   static const splash = "assets/image/splash.png";
+  static const splashblack = "assets/image/splashblack.png";
   static const whatsapplogo = "assets/image/whatsapplogo.png";
   static const welcomeimg = "assets/image/welcomeimg.png";
   // --------------Home img-------------

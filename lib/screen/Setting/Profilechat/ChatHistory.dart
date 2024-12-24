@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp/Components/Checkboxlisttile.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
@@ -30,7 +31,7 @@ class _ChatHistoryState extends State<ChatHistory> {
           child: Column(children: [
             ListTile(
                 onTap: () {
-                  Navigator.pushNamed(context, RouteName.ExportChatView);
+                  Get.toNamed( RouteName.ExportChatView);
                 },
                 leading:
                     Icon(Icons.file_upload_outlined, color: Appcolors.grey),
@@ -50,7 +51,7 @@ class _ChatHistoryState extends State<ChatHistory> {
                               children: [
                                 TextButton(
                                     onPressed: () {
-                                      Navigator.pop(context);
+                                       Get.back();
                                     },
                                     child: Text("CANCEL",
                                         style: AppTextTheme.fs13Normal()
@@ -123,7 +124,7 @@ class _ChatHistoryState extends State<ChatHistory> {
                                     children: [
                                       TextButton(
                                           onPressed: () {
-                                            Navigator.pop(context);
+                                             Get.back();
                                           },
                                           child: Text("CANCEL",
                                               style: AppTextTheme.fs13Normal()
@@ -166,7 +167,7 @@ class _ChatHistoryState extends State<ChatHistory> {
                                     children: [
                                       TextButton(
                                           onPressed: () {
-                                            Navigator.pop(context);
+                                             Get.back();
                                           },
                                           child: Text("CANCEL",
                                               style: AppTextTheme.fs13Normal()

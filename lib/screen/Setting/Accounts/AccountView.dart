@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/controller/Dummydatacontroller.dart';
@@ -36,17 +37,17 @@ class AccountView extends StatelessWidget {
   accountonpressed(int index, BuildContext context) {
     switch (index) {
       // case 0:
-      //   return Navigator.pushNamed(context, RouteName.SecurityView);
+      //   return Get.toNamed( RouteName.SecurityView);
       case 1:
-        return Navigator.pushNamed(context, RouteName.SecurityView);
+        return Get.toNamed( RouteName.SecurityView);
       case 2:
-        return Navigator.pushNamed(context, RouteName.twostepVerfication);
+        return Get.toNamed( RouteName.twostepVerfication);
       case 3:
-        return Navigator.pushNamed(context, RouteName.changepassword);
+        return Get.toNamed( RouteName.changepassword);
       case 4:
-        return Navigator.pushNamed(context, RouteName.requestaccount);
+        return Get.toNamed( RouteName.requestaccount);
       case 5:
-        return Navigator.pushNamed(context, RouteName.deleteaccount);
+        return Get.toNamed( RouteName.deleteaccount);
 
       default:
     }

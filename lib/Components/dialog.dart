@@ -58,7 +58,7 @@ class EixtAppDailog extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 15),
                     ),
                     onPressed: () {
-                      SystemNavigator.pop();
+                       Get.back();
                     },
                     child: Text(
                       "Yes exit",

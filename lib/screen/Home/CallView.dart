@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/controller/Dummydatacontroller.dart';
 import 'package:whatsapp/resources/utils/routes/routename.dart';
@@ -14,7 +16,7 @@ class CallView extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           backgroundColor: Appcolors.darkgreen,
           onPressed: () {
-            Navigator.pushNamed(context, RouteName.Selectcontact);
+           Get.toNamed( RouteName.Selectcontact);
           },
           child: Icon(
             Icons.phone,

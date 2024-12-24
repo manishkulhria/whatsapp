@@ -8,6 +8,7 @@ import 'package:whatsapp/backend/repo/sharedPerf.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/constants/icon_image.dart';
+import 'package:whatsapp/controller/Theme/themecontroller.dart';
 import 'package:whatsapp/controller/authcontroller.dart';
 import 'package:whatsapp/model/authmodel.dart';
 import 'package:whatsapp/resources/utils/routes/routename.dart';
@@ -66,33 +67,24 @@ class _splashviewState extends State<splashview> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Get.find<Themecontroller>();
+
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset(
-            AppImage.splash,
-            width: MediaQuery.of(context).size.width,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
+        body: Stack(alignment: Alignment.center, children: [
+      Image.asset(theme.isdarkmode() ? AppImage.splashblack : AppImage.splash,
+          width: MediaQuery.of(context).size.width),
+      Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        AppImage.whatsapplogo,
-                        fit: BoxFit.cover,
-                      ),
+                      Image.asset(AppImage.whatsapplogo, fit: BoxFit.cover),
                       index1 == 1
-                          ? Text(
-                              "WhatsApp",
-                              style: AppTextTheme.fs35Normal()
-                                  .copyWith(color: Appcolors.black),
-                            )
+                          ? Text("WhatsApp", style: AppTextTheme.fs35Normal())
                           : SizedBox()
                     ],
                   ),
@@ -112,24 +104,17 @@ class _splashviewState extends State<splashview> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                "from",
-                                style: AppTextTheme.fs12Normal()
-                                    .copyWith(color: Appcolors.grey),
-                              ),
-                              Gap(5),
-                              Text(
-                                "FACEBOOK",
-                                style: AppTextTheme.fs15Normal(),
-                              )
-                            ],
-                          )
+                                Text(
+                                  "from",
+                                  style: AppTextTheme.fs12Normal()
+                                      .copyWith(color: Appcolors.grey),
+                                ),
+                                Gap(5),
+                                Text("FACEBOOK",
+                                    style: AppTextTheme.fs15Normal())
+                              ])
                         : SizedBox()
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+              ]))
+    ]));
   }
 }

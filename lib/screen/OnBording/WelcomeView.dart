@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp/Components/CommonBtn.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
@@ -55,7 +56,7 @@ class WelcomeView extends StatelessWidget {
                       minimumSize: true,
                       title: "AGREE AND CONTINUE",
                       onPressed: () {
-                        Navigator.pushNamed(context, RouteName.Loginview);
+                        Get.toNamed( RouteName.Loginview);
                       }),
                 ],
               ),

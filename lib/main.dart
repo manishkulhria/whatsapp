@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:whatsapp/Classes/Singletonclass.dart';
+import 'package:whatsapp/Classes/Themeclass.dart';
 import 'package:whatsapp/backend/repo/sharedPerf.dart';
 import 'package:whatsapp/controller/Bindings/app_binding.dart';
-import 'package:whatsapp/controller/themecontroller.dart';
 import 'package:whatsapp/firebase_options.dart';
 import 'package:whatsapp/resources/utils/app_config.dart';
 import 'package:whatsapp/resources/utils/routes/route.dart';
@@ -28,14 +28,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appstyle = SingleTonClass.instance;
-    final themechange = Get.put(AllController());
+    // final controller = Get.put(ThemeController());
 
     return ScreenUtilInit(
         child: GetMaterialApp(
-            themeMode: themechange.themedata,
-            theme: ThemeData(
-                brightness: Brightness.light, primarySwatch: Colors.blue),
-            darkTheme: ThemeData(brightness: Brightness.dark),
+            themeMode: ThemeMode.light,
+            // controller.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
+            theme: Gettheme.lightTheme,
+            darkTheme: Gettheme.darkTheme,
             initialRoute: AppPages.intialroute,
             getPages: AppPages.routes,
             title: 'Flutter Demo',

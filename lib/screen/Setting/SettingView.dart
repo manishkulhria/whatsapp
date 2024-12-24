@@ -14,7 +14,7 @@ class Settingview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _controlelr = Get.find<UserController>();
+    final _usercontroller = Get.find<UserController>();
     return Scaffold(
         appBar: AppBar(
           foregroundColor: Appcolors.white,
@@ -30,7 +30,7 @@ class Settingview extends StatelessWidget {
                   Gap(15),
                   ListTile(
                       onTap: () {
-                        Navigator.pushNamed(context, RouteName.Profileview);
+                        Get.toNamed(RouteName.Profileview);
                       },
                       leading: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
@@ -45,13 +45,13 @@ class Settingview extends StatelessWidget {
                                           value: downloadProgress.progress),
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.error),
-                              imageUrl: _controlelr.user.image.toString())),
-                      title: Text(_controlelr.user.name.toString(),
+                              imageUrl: _usercontroller.user.image.toString())),
+                      title: Text(_usercontroller.user.name.toString(),
                           style: AppTextTheme.fs13semibold()),
                       subtitle: Text("Hey there! Iam using WhatsApp.",
                           style: AppTextTheme.fs12Normal(),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis), 
+                          overflow: TextOverflow.ellipsis),
                       trailing: IconButton(
                           onPressed: () {}, icon: Icon(Icons.qr_code_2))),
                   Gap(10),
@@ -89,18 +89,17 @@ class Settingview extends StatelessWidget {
   onpressed(int index, BuildContext context) {
     switch (index) {
       case 0:
-        return Navigator.pushNamed(context, RouteName.AccountView);
+        return Get.toNamed(RouteName.AccountView);
       case 1:
-        return Navigator.pushNamed(context, RouteName.ProfileChatView);
+        return Get.toNamed(RouteName.ProfileChatView);
       case 2:
-        return Navigator.pushNamed(context, RouteName.ProfileNotification);
+        return Get.toNamed(RouteName.ProfileNotification);
       case 3:
-        return Navigator.pushNamed(context, RouteName.Storageanddata);
+        return Get.toNamed(RouteName.Storageanddata);
       case 4:
-        return Navigator.pushNamed(context, RouteName.HelpView);
+        return Get.toNamed(RouteName.HelpView);
       case 5:
-        return Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Loginview()));
+        return Get.to(Loginview());
 
       default:
     }

@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:whatsapp/backend/Apis/Apis.dart';
 import 'package:whatsapp/backend/Firebaseresponse/Firebaseresponse.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/controller/Dummydatacontroller.dart';
-import 'package:whatsapp/controller/authcontroller.dart';
 import 'package:whatsapp/model/authmodel.dart';
 import 'package:whatsapp/screen/Home/MessageView.dart';
+import 'package:whatsapp/screen/Home/contact/Newcontact.dart';
 
 class Selectcontact extends StatefulWidget {
   const Selectcontact({super.key});
@@ -51,7 +52,8 @@ class _SelectcontactState extends State<Selectcontact> {
                     children: [
                         Text("Select contact",
                             style: AppTextTheme.fs18Normal()),
-                        Text("25 contacts", style: AppTextTheme.fs14Normal())
+                        Text(_data.length.toString(),
+                            style: AppTextTheme.fs14Normal())
                       ])
                 : TextField(
                     onChanged: (value) {
@@ -107,6 +109,9 @@ class _SelectcontactState extends State<Selectcontact> {
                         icon: Icon(Icons.people)),
                     title: Text("New group", style: AppTextTheme.fs15Normal())),
                 ListTile(
+                    onTap: () {
+                      Get.to(Newcontact());
+                    },
                     leading: IconButton(
                         style: TextButton.styleFrom(
                             backgroundColor: Appcolors.darkgreen),
@@ -120,8 +125,7 @@ class _SelectcontactState extends State<Selectcontact> {
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("User")
-                      .where("username",
-                          isNotEqualTo: UserController().user.name)
+                      .where("phoneno", isNotEqualTo: Apis.user.phoneNumber)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.active) {

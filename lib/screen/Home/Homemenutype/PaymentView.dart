@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/constants/icon_image.dart';
@@ -111,7 +112,7 @@ class PaymentView extends StatelessWidget {
                     style: TextButton.styleFrom(
                         backgroundColor: Appcolors.darkgreen),
                     onPressed: () {
-                      Navigator.pushNamed(context, RouteName.NewPayment);
+                      Get.toNamed( RouteName.NewPayment);
                     },
                     icon: Image.asset(Appicon.payment),
                     label: Text(

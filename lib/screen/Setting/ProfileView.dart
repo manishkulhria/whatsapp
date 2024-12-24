@@ -189,7 +189,7 @@ class _ProfileviewState extends State<Profileview> {
       setState(() {
         imageFile = File(getImage.path);
       });
-      Navigator.of(context).pop();
+       Get.back();
     }
   }
 
@@ -202,7 +202,7 @@ class _ProfileviewState extends State<Profileview> {
       setState(() {
         imageFile = File(getImage.path);
       });
-      Navigator.of(context).pop();
+       Get.back();
     }
   }
 
@@ -241,7 +241,7 @@ class _ProfileviewState extends State<Profileview> {
                           .copyWith(color: Appcolors.darkgreen))),
               ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pop(context);
+                     Get.back();
                   },
                   icon: Icon(Icons.cancel, color: Appcolors.darkgreen),
                   label: Text("Cancel",

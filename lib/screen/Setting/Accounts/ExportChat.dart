@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/controller/Dummydatacontroller.dart';
@@ -34,8 +35,7 @@ class ExportChatView extends StatelessWidget {
                           itemCount: DataController.Chatdata.length,
                           itemBuilder: (context, index) => ListTile(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, RouteName.MessageView);
+                                Get.toNamed( RouteName.MessageView);
                               },
                               leading: Image.asset(
                                   DataController.Chatdata[index]["image"]),
@@ -64,8 +64,7 @@ class ExportChatView extends StatelessWidget {
                           itemCount: DataController.Allcontacts.length,
                           itemBuilder: (context, index) => ListTile(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, RouteName.MessageView);
+                                Get.toNamed( RouteName.MessageView);
                               },
                               leading: Image.asset(
                                   DataController.Allcontacts[index]["image"]),

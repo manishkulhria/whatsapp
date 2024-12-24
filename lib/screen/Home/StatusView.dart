@@ -1,11 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
-import 'package:whatsapp/constants/icon_image.dart';
 import 'package:whatsapp/controller/Dummydatacontroller.dart';
+import 'package:whatsapp/controller/authcontroller.dart';
 import 'package:whatsapp/resources/utils/routes/routename.dart';
 import 'package:whatsapp/screen/Home/statusadd.dart/storyview.dart';
 
@@ -14,6 +15,8 @@ class StatusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _usercontroller = Get.find<UserController>();
+
     return Scaffold(
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -23,7 +26,7 @@ class StatusView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100)),
               backgroundColor: Appcolors.darkgreen,
               onPressed: () {
-                Navigator.pushNamed(context, RouteName.Selectcontact);
+                Get.toNamed( RouteName.Selectcontact);
               },
               child: Icon(
                 Icons.edit,
@@ -35,7 +38,7 @@ class StatusView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100)),
               backgroundColor: Appcolors.darkgreen,
               onPressed: () {
-                Navigator.pushNamed(context, RouteName.Selectcontact);
+                Get.toNamed( RouteName.Selectcontact);
               },
               child: Icon(
                 Icons.camera_alt,
@@ -49,10 +52,22 @@ class StatusView extends StatelessWidget {
           children: [
             ListTile(
               onTap: () {
-                Get.to(() => Storyview());
+                Get.to(Storyview());
               },
               leading: Stack(alignment: Alignment(1.2, 1.3), children: [
-                Image.asset(AppImage.abelson),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    color: Appcolors.Red,
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        imageUrl: _usercontroller.user.image.toString())),
                 GestureDetector(
                     child: Container(
                         decoration: BoxDecoration(
@@ -70,25 +85,32 @@ class StatusView extends StatelessWidget {
             ),
             Gap(5),
             ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: DataController.Chatdata.length,
-              itemBuilder: (context, index) => ListTile(
-                leading: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Appcolors.darkgreen),
-                      shape: BoxShape.circle),
-                  child: Image.asset(DataController.Chatdata[index]["image"]),
-                ),
-                title: Text(
-                  DataController.Chatdata[index]["title"],
-                  style: AppTextTheme.fs13semibold(),
-                ),
-                subtitle: Text(
-                  DataController.Chatdata[index]["time"],
-                ),
-              ),
-            ),
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: DataController.Chatdata.length,
+                itemBuilder: (context, index) {
+                  // Create a unique tag for each hero, for example using index
+                  String heroTag =
+                      "status_hero_tag_$index"; // Ensure each Hero tag is unique
+
+                  return ListTile(
+                      leading: Hero(
+                        tag: heroTag, // Set the unique tag here
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Appcolors.darkgreen),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.asset(
+                              DataController.Chatdata[index]["image"]),
+                        ),
+                      ),
+                      title: Text(
+                        DataController.Chatdata[index]["title"],
+                        style: AppTextTheme.fs13semibold(),
+                      ),
+                      subtitle: Text(DataController.Chatdata[index]["time"]));
+                }),
             Gap(5),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),

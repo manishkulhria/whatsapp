@@ -92,7 +92,7 @@ class _CompleteprofileState extends State<Completeprofile> {
       setState(() {
         imageFile = File(getImage.path);
       });
-      Navigator.of(context).pop();
+      Get.back();
     }
   }
 
@@ -105,7 +105,7 @@ class _CompleteprofileState extends State<Completeprofile> {
       setState(() {
         imageFile = File(getImage.path);
       });
-      Navigator.of(context).pop();
+      Get.back();
     }
   }
 
@@ -141,7 +141,7 @@ class _CompleteprofileState extends State<Completeprofile> {
                           .copyWith(color: Appcolors.darkgreen))),
               ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pop(context);
+                     Get.back();
                   },
                   icon: Icon(Icons.cancel, color: Appcolors.darkgreen),
                   label: Text("Cancel",
