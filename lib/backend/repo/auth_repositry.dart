@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,6 +9,7 @@ import 'package:whatsapp/controller/authcontroller.dart';
 import 'package:whatsapp/model/authmodel.dart';
 import 'package:whatsapp/screen/auth/Otpview.dart';
 
+
 class AuthRepositry extends Authentication {
   static final _firebaseStorage = FirebaseStorage.instance;
   final store = FirebaseFirestore.instance;
@@ -18,6 +18,35 @@ class AuthRepositry extends Authentication {
 
   @override
   Future<Usermodel> signup({required Usermodel user}) async {
+    try {
+      String verificationId = '';
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: user.phoneno,
+        verificationCompleted: (phoneAuthCredential) async {
+          await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+        },
+        verificationFailed: (error) {
+          Get.snackbar("Phone number", error.toString());
+        },
+        codeSent: (verificationIdReceived, forceResendingToken) {
+          verificationId = verificationIdReceived;
+          Get.to(() => OtpView(verificationId: verificationId));
+        },
+        codeAutoRetrievalTimeout: (e) {},
+      );
+
+      return userdata;
+    } on FirebaseAuthException catch (e) {
+      print("----------------");
+      print(e.toString());
+      throw DefaultException(
+          message: "Error during phone number verification: ${e.toString()}");
+    } catch (e) {
+      throw DefaultException(
+          message: "An unknown error occurred: ${e.toString()}");
+    }
+  }
+   Future<Usermodel> Login({required Usermodel user}) async {
     try {
       String verificationId = '';
       await FirebaseAuth.instance.verifyPhoneNumber(

@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:whatsapp/Components/RadioRowfun.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
 import 'package:whatsapp/controller/Theme/themecontroller.dart';
-import 'package:whatsapp/controller/themecontroller.dart';
 import 'package:whatsapp/resources/utils/routes/routename.dart';
 import 'package:whatsapp/screen/Setting/Profilechat/themechange.dart';
 
@@ -25,7 +23,6 @@ class _ChatViewProfileState extends State<ChatViewProfile> {
   var theme;
   @override
   Widget build(BuildContext context) {
-    final themecontroller = Get.find<Themecontroller>();
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Appcolors.darkgreen,

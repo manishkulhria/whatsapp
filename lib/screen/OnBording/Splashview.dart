@@ -72,7 +72,7 @@ class _splashviewState extends State<splashview> {
     return Scaffold(
         body: Stack(alignment: Alignment.center, children: [
       Image.asset(theme.isdarkmode() ? AppImage.splashblack : AppImage.splash,
-          width: MediaQuery.of(context).size.width),
+          width: MediaQuery.of(context).size.width, fit: BoxFit.cover),
       Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -81,7 +81,7 @@ class _splashviewState extends State<splashview> {
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: [ 
                       Image.asset(AppImage.whatsapplogo, fit: BoxFit.cover),
                       index1 == 1
                           ? Text("WhatsApp", style: AppTextTheme.fs35Normal())

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:whatsapp/Components/dialog.dart';
+import 'package:whatsapp/backend/Apis/Apis.dart';
 import 'package:whatsapp/constants/Appcolors.dart';
 import 'package:whatsapp/constants/TextTheme.dart';
+import 'package:whatsapp/controller/authcontroller.dart';
+import 'package:whatsapp/model/Callmodel/callcontroller.dart';
 import 'package:whatsapp/screen/Home/chat/Chatview.dart';
 import 'package:whatsapp/screen/Home/CallView.dart';
 import 'package:whatsapp/screen/Home/StatusView.dart';
@@ -16,6 +20,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  final controller = Get.put(Callcontroller());
+
   int tabbarindex = 0;
   late TabController tabController =
       TabController(length: 3, vsync: this, initialIndex: tabbarindex);
@@ -23,6 +29,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    SystemChannels.lifecycle.setMessageHandler((message) {
+      print('Message: $message');
+
+      if (Apis.auth.currentUser != null) {
+        if (message.toString().contains('resume')) {
+          Apis.setstatus(true);
+        }
+        if (message.toString().contains('pause')) {
+          Apis.setstatus(false);
+        }
+      }
+
+      return Future.value(message);
+    });
+
     tabController.addListener(() {
       // Update tab index when the tab changes
       if (tabController.index != tabbarindex) {

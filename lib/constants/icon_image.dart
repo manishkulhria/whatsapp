@@ -1,6 +1,4 @@
 // -----------------APP IMAGE--------------
-
-
 class AppImage {
   // -----------On bording img----------
   static const splash = "assets/image/splash.png";

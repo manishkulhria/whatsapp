@@ -52,9 +52,11 @@ class _MessagecardState extends State<Messagecard> {
                               style: AppTextTheme.fs10Normal()
                                   .copyWith(color: Appcolors.white)),
                           Gap(4),
-                          if (widget.message.read!.isNotEmpty)
-                            Icon(Icons.done_all,
-                                color: Appcolors.blue, size: 15)
+                          widget.message.read!.isNotEmpty
+                              ? Icon(Icons.done_all,
+                                  color: Appcolors.blue, size: 15)
+                              : Icon(Icons.done_all,
+                                  color: Appcolors.white, size: 15)
                         ]),
                         Gap(3)
                       ])
@@ -63,92 +65,113 @@ class _MessagecardState extends State<Messagecard> {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Stack(alignment: Alignment(0.75, 0.95), children: [
                         FullScreenWidget(
-                          disposeLevel: DisposeLevel.Low,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15),
-                                bottomLeft: Radius.circular(15)),
-                            child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                height: 200,
-                                width: 200,
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) => Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CircularProgressIndicator(
-                                            color: Appcolors.Red,
-                                            value: downloadProgress.progress)),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                imageUrl: widget.message.msg!),
-                          ),
-                        ),
+                            disposeLevel: DisposeLevel.Low,
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    height: 200,
+                                    width: 200,
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: CircularProgressIndicator(
+                                                color: Appcolors.Red,
+                                                value:
+                                                    downloadProgress.progress)),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    imageUrl: widget.message.msg!))),
                         Text(
                             Timedateset.timeset(
                                 context: context, time: widget.message.sentAt!),
                             style: AppTextTheme.fs10Normal()
                                 .copyWith(color: Appcolors.white)),
                         Gap(4),
-                        Positioned(
-                            right: 3,
-                            child: Icon(Icons.done_all,
-                                color: Appcolors.blue, size: 15))
+                        widget.message.read!.isNotEmpty
+                            ? Positioned(
+                                right: 3,
+                                child: Icon(Icons.done_all,
+                                    color: Appcolors.blue, size: 15))
+                            : Positioned(
+                                right: 3,
+                                child: Icon(Icons.done_all,
+                                    color: Appcolors.white, size: 15))
                       ]))))
     ]));
+    
   }
 
   Widget whiteCard() {
-    if (widget.message.read!.isNotEmpty) {
+    if (widget.message.read!.isEmpty) {
       Apis.Updatereadmsg(widget.message);
     }
     return Row(children: [
       Flexible(
           child: Container(
               margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-              padding: EdgeInsets.only(right: 10, left: 10),
+              padding: EdgeInsets.only(right: 5, left: 5),
               decoration: BoxDecoration(
-                color: Appcolors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                    bottomLeft: Radius.circular(15)),
-              ),
+                  color: Appcolors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15))),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
                 widget.message.messageType == MessageType.Text
-                    ? Text(widget.message.msg!,
-                        style: AppTextTheme.fs13Normal()
-                            .copyWith(color: Appcolors.white))
-                    : ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                            bottomLeft: Radius.circular(15)),
-                        child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            height: 50,
-                            width: 50,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    CircularProgressIndicator(
-                                        color: Appcolors.Red,
-                                        value: downloadProgress.progress),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            imageUrl: widget.message.msg!)),
-                Gap(5),
-                Column(children: [
-                  Gap(15),
-                  Row(children: [
-                    Text(
-                        Timedateset.timeset(
-                            context: context, time: widget.message.sentAt!),
-                        style: AppTextTheme.fs10Normal()
-                            .copyWith(color: Appcolors.black)),
-                    Gap(4)
-                  ]),
-                  Gap(3)
-                ])
+                    ? Row(mainAxisSize: MainAxisSize.min, children: [
+                        Text(widget.message.msg!,
+                            style: AppTextTheme.fs13Normal()
+                                .copyWith(color: Appcolors.black)),
+                        Gap(5),
+                        Column(children: [
+                          Gap(15),
+                          Row(children: [
+                            Text(
+                                Timedateset.timeset(
+                                    context: context,
+                                    time: widget.message.sentAt!),
+                                style: AppTextTheme.fs10Normal()
+                                    .copyWith(color: Appcolors.black))
+                          ]),
+                          Gap(3)
+                        ])
+                      ])
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child:
+                            Stack(alignment: Alignment(0.9, 0.95), children: [
+                          FullScreenWidget(
+                              disposeLevel: DisposeLevel.Low,
+                              child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      height: 200,
+                                      width: 200,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: CircularProgressIndicator(
+                                                  color: Appcolors.Red,
+                                                  value: downloadProgress
+                                                      .progress)),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                      imageUrl: widget.message.msg!))),
+                          Text(
+                              Timedateset.timeset(
+                                  context: context,
+                                  time: widget.message.sentAt!),
+                              style: AppTextTheme.fs10Normal()
+                                  .copyWith(color: Appcolors.white)),
+                          Gap(4),
+                        ]))
               ])))
     ]);
   }

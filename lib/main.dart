@@ -7,6 +7,7 @@ import 'package:whatsapp/Classes/Themeclass.dart';
 import 'package:whatsapp/backend/repo/sharedPerf.dart';
 import 'package:whatsapp/controller/Bindings/app_binding.dart';
 import 'package:whatsapp/firebase_options.dart';
+import 'package:whatsapp/model/Callmodel/callcontroller.dart';
 import 'package:whatsapp/resources/utils/app_config.dart';
 import 'package:whatsapp/resources/utils/routes/route.dart';
 
@@ -28,12 +29,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appstyle = SingleTonClass.instance;
-    // final controller = Get.put(ThemeController());
 
     return ScreenUtilInit(
         child: GetMaterialApp(
             themeMode: ThemeMode.light,
-            // controller.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
             theme: Gettheme.lightTheme,
             darkTheme: Gettheme.darkTheme,
             initialRoute: AppPages.intialroute,

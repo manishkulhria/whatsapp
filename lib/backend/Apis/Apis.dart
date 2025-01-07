@@ -27,21 +27,6 @@ class Apis {
     return (await userDocumentRef(user.uid).get()).exists;
   }
 
-  // ----add chat user
-
-  static Future<bool> addchatuser(String phoneno) async {
-    final data =
-        await userCollectionRef.where("phoneno", isEqualTo: phoneno).get();
-    if (data.docs.isEmpty && data.docs.first.id != user.uid) {
-      userDocumentRef(user.uid)
-          .collection("mychatuser")
-          .doc(data.docs.first.id);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
 //  create user
   static Future<void> createUser(String name, File? imgfile) async {
     final UserController userController = Get.find<UserController>();
@@ -92,16 +77,6 @@ class Apis {
       ? '${user.uid}_$id'
       : '${id}_${user.uid}';
 
-// -------
-
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
-      Usermodel user) {
-    return _firestore
-        .collection('chats/${getConversationID(user.id!)}/messages/')
-        .orderBy("sentAt", descending: true)
-        .snapshots();
-  }
-
   // -----------
   static Stream<QuerySnapshot<Map<String, dynamic>>> getlastmessage(
       Usermodel user) {
@@ -130,14 +105,14 @@ class Apis {
     await ref.doc(time).set(message.toMap());
   }
 
-  // --------------update read msg-
+  // -------
 
-  static Future Updatereadmsg(Message msg) async {
-    final time = DateTime.now().millisecondsSinceEpoch.toString();
-    _firestore
-        .collection('chats/${getConversationID(msg.fromid!)}/messages/')
-        .doc(msg.sentAt)
-        .update({"read": time});
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
+      Usermodel user) {
+    return _firestore
+        .collection('chats/${getConversationID(user.id!)}/messages/')
+        .orderBy("sentAt", descending: true)
+        .snapshots();
   }
 
   // --------------send chat image--
@@ -149,5 +124,31 @@ class Apis {
     await ref.putFile(file, SettableMetadata(contentType: "image/.$ext"));
     final downloadurl = await ref.getDownloadURL();
     await sendMessage(model, downloadurl, MessageType.Image);
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getuserinfo(
+      Usermodel _user) {
+    return _firestore
+        .collection("User")
+        .where("id", isEqualTo: _user.id)
+        .snapshots();
+  }
+
+  // ---------------status set--
+  static Future setstatus(bool isonline) async {
+    userDocumentRef(user.uid).update({
+      "isonline": isonline,
+      'last_active': DateTime.now().millisecondsSinceEpoch.toString()
+    });
+  }
+
+  // --------------update read msg- 
+
+  static Future Updatereadmsg(Message msg) async {
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    _firestore
+        .collection('chats/${getConversationID(msg.fromid!)}/messages/')
+        .doc(msg.sentAt)
+        .update({"read": time});
   }
 }

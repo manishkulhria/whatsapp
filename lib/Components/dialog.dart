@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -37,7 +36,7 @@ class EixtAppDailog extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       backgroundColor: Appcolors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      padding: EdgeInsets.symmetric(horizontal: 15)
                     ),
                     onPressed: () {
                       Get.back();
@@ -45,8 +44,8 @@ class EixtAppDailog extends StatelessWidget {
                     child: Text(
                       "Cancel",
                       style: AppTextTheme.fs14Normal()
-                          .copyWith(color: Appcolors.black),
-                    )),
+                          .copyWith(color: Appcolors.black)
+                    ))
               ),
               Gap(15),
               Expanded(
@@ -55,7 +54,7 @@ class EixtAppDailog extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       backgroundColor: Appcolors.darkgreen,
-                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      padding: EdgeInsets.symmetric(horizontal: 15)
                     ),
                     onPressed: () {
                        Get.back();
@@ -63,13 +62,13 @@ class EixtAppDailog extends StatelessWidget {
                     child: Text(
                       "Yes exit",
                       style: AppTextTheme.fs14Normal()
-                          .copyWith(color: Appcolors.white),
-                    )),
-              ),
-            ],
-          ),
-        ],
-      ),
+                          .copyWith(color: Appcolors.white)
+                    ))
+              )
+            ]
+          )
+        ]
+      )
     );
   }
 }
